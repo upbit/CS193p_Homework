@@ -17,11 +17,21 @@
     if (self)
     {
         for (NSString *suit in [PlayingCard validSuits]) {
-            for (NSUInteger rank = 1; rank <= [PlayingCard maxRank]; rank++) {
-                PlayingCard *card = [[PlayingCard alloc] init];
-                card.suit = suit;
-                card.rank = rank;
-                [self addCard:card];
+            if (![suit isEqualToString:@"Joker"]) {
+                //for (NSUInteger rank = 1; rank <= [PlayingCard maxRank]; rank++) {
+                for (NSUInteger rank = 7; rank <= [PlayingCard maxRank]; rank++) {      // easy for playing
+                    PlayingCard *card = [[PlayingCard alloc] init];
+                    card.suit = suit;
+                    card.rank = rank;
+                    [self addCard:card];
+                }
+            } else {    // add 2 Joke
+                for (int i = 0; i < 2; i++) {
+                    PlayingCard *card = [[PlayingCard alloc] init];
+                    card.suit = suit;
+                    card.rank = 0;
+                    [self addCard:card];
+                }
             }
         }
     }
