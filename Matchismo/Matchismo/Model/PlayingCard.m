@@ -17,14 +17,22 @@
 {
     int score = 0;
     
-    if ([otherCards count] == 1)
-    {
+    if ([otherCards count] == 1) {          // 2x model
         PlayingCard *otherCard = [otherCards firstObject];
         
         if (self.rank == otherCard.rank) {
-            score = 4;
+            score += 4;
         } else if ([self.suit isEqualToString:otherCard.suit]) {
-            score = 1;
+            score += 1;
+        }
+    } else if ([otherCards count] == 2) {     // 3x model
+        PlayingCard *otherCard1 = [otherCards firstObject];
+        PlayingCard *otherCard2 = [otherCards lastObject];
+        
+        if ((self.rank == otherCard1.rank) && (self.rank == otherCard2.rank)) {
+            score += 16;
+        } else if (([self.suit isEqualToString:otherCard1.suit]) && ([self.suit isEqualToString:otherCard2.suit])) {
+            score += 4;
         }
     }
     

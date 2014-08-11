@@ -13,7 +13,10 @@
 @interface CardGameViewController ()
 
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
+@property (weak, nonatomic) IBOutlet UILabel *infoLabel;
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *modelSegment;
+
 @property (strong, nonatomic) CardMatchingGame *game;
 
 @end
@@ -46,7 +49,7 @@
         cardButton.enabled = !card.isMatched;
     }
     
-    
+    self.infoLabel.text = self.game.infoText;
     self.scoreLabel.text = [NSString stringWithFormat:@"Score: %d", self.game.score];
 }
 
@@ -62,9 +65,22 @@
 
 - (IBAction)cardTouchButton:(UIButton *)sender {
     int chosenButtonIndex = [self.cardButtons indexOfObject:sender];
-    [self.game chooseCardAtIndex:chosenButtonIndex];
+    
+    NSInteger modelSegmentIndex = [self.modelSegment selectedSegmentIndex];
+    if (modelSegmentIndex == 0) {
+        [self.game chooseCardAtIndex:chosenButtonIndex matchCount:2];
+    } else if (modelSegmentIndex == 1) {
+        [self.game chooseCardAtIndex:chosenButtonIndex matchCount:3];
+    }
     
     [self updateUI];
+    self.modelSegment.enabled = NO;
+}
+
+- (IBAction)restartGame:(UIButton *)sender {
+    self.game = nil;
+    [self updateUI];
+    self.modelSegment.enabled = YES;
 }
 
 @end

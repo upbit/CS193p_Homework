@@ -10,6 +10,8 @@
 
 @interface CardMatchingGame()
 @property (nonatomic, readwrite) NSInteger score;
+@property (nonatomic, readwrite) NSString *infoText;
+
 @property (strong, nonatomic) NSMutableArray *cards;    // of Card
 @end
 
@@ -49,31 +51,57 @@ static const int MISMATCH_PENALTY = 2;
 static const int MATCH_BONUS = 4;
 static const int COST_TO_CHOOSE = 1;
 
-- (void)chooseCardAtIndex:(NSUInteger)index
+- (NSString *)matchCardsToString:(NSMutableArray *)matchCards
+{
+    NSString *result = @"";
+    for (Card *matchCard in matchCards) {
+        result = [result stringByAppendingFormat:@"%@ ", matchCard.contents];
+    }
+    return result;
+}
+
+- (void)chooseCardAtIndex:(NSUInteger)index matchCount:(NSUInteger)count
 {
     Card *card = [self cardAtIndex:index];
+    NSMutableArray *matchCards = [[NSMutableArray alloc] init];
+    BOOL needMatch = NO;
     
     if (!card.isMatched) {
         if (card.isChosen) {
             card.chosen = NO;
         } else {
-            // match another card
             for (Card *otherCard in self.cards) {
                 if ((otherCard.isChosen) && (!otherCard.isMatched)) {
-                    int matchScore = [card match:@[otherCard]];
-                    NSLog(@"match %@ with %@, score = %d", card.contents, otherCard.contents, matchScore);
+                    [matchCards addObject:otherCard];
                     
-                    if (matchScore) {
-                        self.score += matchScore * MATCH_BONUS;
-                        card.matched = YES;
-                        otherCard.matched = YES;
-                    } else {
-                        self.score -= MISMATCH_PENALTY;
-                        otherCard.chosen = NO;
+                    if ([matchCards count]+1 >= count) {
+                        needMatch = YES;
+                        break;
                     }
-                    break;
                 }
             }
+            
+            if (needMatch) {
+                NSInteger matchScore = [card match:matchCards];
+                NSLog(@"match with cards: %@ %@, score = %d", card.contents, [self matchCardsToString:matchCards], matchScore);
+                
+                if (matchScore) {
+                    self.score += matchScore * MATCH_BONUS;
+                    self.infoText = [NSString stringWithFormat:@"Matched %@ %@ for %d points.", card.contents, [self matchCardsToString:matchCards], matchScore*MATCH_BONUS];
+                    
+                    card.matched = YES;
+                    for (Card *otherCard in matchCards)
+                        otherCard.matched = YES;
+                } else {
+                    self.score -= MISMATCH_PENALTY;
+                    self.infoText = [NSString stringWithFormat:@"%@ %@ don’t match! %d point penalty!", card.contents, [self matchCardsToString:matchCards], MISMATCH_PENALTY];
+                    
+                    card.chosen = NO;
+                    for (Card *otherCard in matchCards)
+                        otherCard.chosen = NO;
+                }
+            }
+            
             self.score -= COST_TO_CHOOSE;
             card.chosen = YES;
         }
