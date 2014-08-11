@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		CB8617F919947ADE0018F8E5 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = CB8617F819947ADE0018F8E5 /* Entitlements.plist */; };
+		CBA1A49219985AA00047CD50 /* CardMatchingGame.m in Sources */ = {isa = PBXBuildFile; fileRef = CBA1A49119985AA00047CD50 /* CardMatchingGame.m */; };
 		CBBA6F4E199365DB00C26B09 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBBA6F4D199365DB00C26B09 /* Foundation.framework */; };
 		CBBA6F50199365DB00C26B09 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBBA6F4F199365DB00C26B09 /* CoreGraphics.framework */; };
 		CBBA6F52199365DB00C26B09 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBBA6F51199365DB00C26B09 /* UIKit.framework */; };
@@ -40,6 +41,8 @@
 
 /* Begin PBXFileReference section */
 		CB8617F819947ADE0018F8E5 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Entitlements.plist; path = ../Entitlements.plist; sourceTree = "<group>"; };
+		CBA1A49019985AA00047CD50 /* CardMatchingGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CardMatchingGame.h; path = Model/CardMatchingGame.h; sourceTree = "<group>"; };
+		CBA1A49119985AA00047CD50 /* CardMatchingGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CardMatchingGame.m; path = Model/CardMatchingGame.m; sourceTree = "<group>"; };
 		CBBA6F4A199365DB00C26B09 /* Matchismo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Matchismo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBBA6F4D199365DB00C26B09 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CBBA6F4F199365DB00C26B09 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -179,6 +182,8 @@
 				CBBA6F901993763C00C26B09 /* Deck.m */,
 				CBBA6F921993796600C26B09 /* PlayingCardDeck.h */,
 				CBBA6F931993796600C26B09 /* PlayingCardDeck.m */,
+				CBA1A49019985AA00047CD50 /* CardMatchingGame.h */,
+				CBA1A49119985AA00047CD50 /* CardMatchingGame.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -304,6 +309,7 @@
 				CBBA6F64199365DB00C26B09 /* CardGameViewController.m in Sources */,
 				CBBA6F5A199365DB00C26B09 /* main.m in Sources */,
 				CBBA6F8E1993728700C26B09 /* PlayingCard.m in Sources */,
+				CBA1A49219985AA00047CD50 /* CardMatchingGame.m in Sources */,
 				CBBA6F941993796600C26B09 /* PlayingCardDeck.m in Sources */,
 				CBBA6F911993763C00C26B09 /* Deck.m in Sources */,
 				CBBA6F8B19936F8700C26B09 /* Card.m in Sources */,
@@ -432,12 +438,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Matchismo/Matchismo-Prefix.pch";
 				INFOPLIST_FILE = "Matchismo/Matchismo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -448,12 +455,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Matchismo/Matchismo-Prefix.pch";
 				INFOPLIST_FILE = "Matchismo/Matchismo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -22,8 +22,6 @@
                 card.suit = suit;
                 card.rank = rank;
                 [self addCard:card];
-                
-                NSLog(@"suit %@ rank %u", suit, rank);
             }
         }
     }
