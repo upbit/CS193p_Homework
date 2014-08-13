@@ -49,7 +49,7 @@
         cardButton.enabled = !card.isMatched;
     }
     
-    self.infoLabel.text = self.game.infoText;
+    self.infoLabel.text = self.game.description;
     self.scoreLabel.text = [NSString stringWithFormat:@"Score: %d", self.game.score];
 }
 

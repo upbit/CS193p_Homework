@@ -10,7 +10,7 @@
 
 @interface CardMatchingGame()
 @property (nonatomic, readwrite) NSInteger score;
-@property (nonatomic, readwrite) NSString *infoText;
+@property (strong, nonatomic) NSString *matchInfo;
 
 @property (strong, nonatomic) NSMutableArray *cards;    // of Card
 @end
@@ -60,6 +60,11 @@ static const int COST_TO_CHOOSE = 1;
     return result;
 }
 
+- (NSString *)description
+{
+    return self.matchInfo;
+}
+
 - (void)chooseCardAtIndex:(NSUInteger)index matchCount:(NSUInteger)count
 {
     Card *card = [self cardAtIndex:index];
@@ -87,14 +92,14 @@ static const int COST_TO_CHOOSE = 1;
                 
                 if (matchScore) {
                     self.score += matchScore * MATCH_BONUS;
-                    self.infoText = [NSString stringWithFormat:@"Matched %@ %@ for %d points.", card.contents, [self matchCardsToString:matchCards], matchScore*MATCH_BONUS];
+                    self.matchInfo = [NSString stringWithFormat:@"Matched %@ %@ for %d points.", card.contents, [self matchCardsToString:matchCards], matchScore*MATCH_BONUS];
                     
                     card.matched = YES;
                     for (Card *otherCard in matchCards)
                         otherCard.matched = YES;
                 } else {
                     self.score -= MISMATCH_PENALTY;
-                    self.infoText = [NSString stringWithFormat:@"%@ %@ don’t match! %d point penalty!", card.contents, [self matchCardsToString:matchCards], MISMATCH_PENALTY];
+                    self.matchInfo = [NSString stringWithFormat:@"%@ %@ don’t match! %d point penalty!", card.contents, [self matchCardsToString:matchCards], MISMATCH_PENALTY];
                     
                     card.chosen = NO;
                     for (Card *otherCard in matchCards)
