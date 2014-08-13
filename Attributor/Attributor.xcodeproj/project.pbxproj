@@ -21,6 +21,7 @@
 		CB4610AF199B44D700C674A9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB461091199B44D700C674A9 /* UIKit.framework */; };
 		CB4610B7199B44D700C674A9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CB4610B5199B44D700C674A9 /* InfoPlist.strings */; };
 		CB4610B9199B44D700C674A9 /* AttributorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CB4610B8199B44D700C674A9 /* AttributorTests.m */; };
+		CB4610C4199B51D000C674A9 /* TextStatsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB4610C3199B51D000C674A9 /* TextStatsViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,8 @@
 		CB4610B4199B44D700C674A9 /* AttributorTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AttributorTests-Info.plist"; sourceTree = "<group>"; };
 		CB4610B6199B44D700C674A9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CB4610B8199B44D700C674A9 /* AttributorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AttributorTests.m; sourceTree = "<group>"; };
+		CB4610C2199B51D000C674A9 /* TextStatsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextStatsViewController.h; sourceTree = "<group>"; };
+		CB4610C3199B51D000C674A9 /* TextStatsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextStatsViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +116,8 @@
 			isa = PBXGroup;
 			children = (
 				CB46109F199B44D700C674A9 /* Main.storyboard */,
+				CB4610C2199B51D000C674A9 /* TextStatsViewController.h */,
+				CB4610C3199B51D000C674A9 /* TextStatsViewController.m */,
 				CB4610A2199B44D700C674A9 /* AttributorViewController.h */,
 				CB4610A3199B44D700C674A9 /* AttributorViewController.m */,
 				CB4610A5199B44D700C674A9 /* Images.xcassets */,
@@ -253,6 +258,7 @@
 				CB46109E199B44D700C674A9 /* AttributorAppDelegate.m in Sources */,
 				CB4610A4199B44D700C674A9 /* AttributorViewController.m in Sources */,
 				CB46109A199B44D700C674A9 /* main.m in Sources */,
+				CB4610C4199B51D000C674A9 /* TextStatsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,10 +7,10 @@
 //
 
 #import "AttributorViewController.h"
+#import "TextStatsViewController.h"
 
 @interface AttributorViewController ()
 @property (weak, nonatomic) IBOutlet UITextView *body;
-@property (weak, nonatomic) IBOutlet UILabel *headline;
 @property (weak, nonatomic) IBOutlet UIButton *outlineButton;
 
 @end
@@ -37,6 +37,16 @@
                                                object:nil];
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"Show Stats"]) {
+        if ([segue.destinationViewController isKindOfClass:[TextStatsViewController class]]) {
+            TextStatsViewController *tsvc = segue.destinationViewController;
+            tsvc.textToAnalyze = self.body.textStorage;
+        }
+    }
+}
+
 - (void)preferredFontsChanged:(NSNotification *)notification
 {
     [self usePreferredFonts];
@@ -45,7 +55,6 @@
 - (void)usePreferredFonts
 {
     self.body.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
-    self.headline.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
 }
 
 - (IBAction)changeBodySelectionColorToMatchBackgroundOfButton:(UIButton *)sender {
