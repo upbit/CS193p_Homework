@@ -18,5 +18,7 @@
 - (Card *)cardAtIndex:(NSUInteger)index;
 
 @property (nonatomic, readonly) NSInteger score;
+@property (strong, nonatomic, readonly) NSAttributedString *matchInfo;
+@property (strong, nonatomic, readonly) NSMutableAttributedString *matchHistory;
 
 @end

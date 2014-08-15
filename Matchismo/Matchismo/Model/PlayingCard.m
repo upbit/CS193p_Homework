@@ -79,9 +79,9 @@
     }
 }
 
-- (NSString *)contents
+- (NSAttributedString *)contents
 {
-    return [NSString stringWithFormat:@"%@%@", _suit, [PlayingCard validRanks][_rank]];
+    return [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@%@ ", _suit, [PlayingCard validRanks][_rank]]];
 }
 
 @end

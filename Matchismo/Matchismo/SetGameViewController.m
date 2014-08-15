@@ -1,17 +1,17 @@
 //
-//  CardGameViewController.m
+//  SetGameViewController.m
 //  Matchismo
 //
 //  Created by Zhou Hao on 14-8-14.
 //  Copyright (c) 2014年 zzz, kastark. All rights reserved.
 //
 
-#import "CardGameViewController.h"
-#import "PlayingCardDeck.h"
+#import "SetGameViewController.h"
+#import "SetPlayingCardDeck.h"
 #import "CardMatchingGame.h"
 #import "HistoryViewController.h"
 
-@interface CardGameViewController ()
+@interface SetGameViewController ()
 
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
@@ -21,7 +21,7 @@
 
 @end
 
-@implementation CardGameViewController
+@implementation SetGameViewController
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
@@ -35,7 +35,7 @@
 
 - (Deck *)createDeck
 {
-    return [[PlayingCardDeck alloc] init];
+    return [[SetPlayingCardDeck alloc] init];
 }
 
 - (CardMatchingGame *)game
@@ -50,13 +50,13 @@
     for (UIButton *cardButton in self.cardButtons) {
         int cardButtonIndex = [self.cardButtons indexOfObject:cardButton];
         Card *card = [self.game cardAtIndex:cardButtonIndex];
-
+        
         [cardButton setAttributedTitle:[self titleForCard:card] forState:UIControlStateNormal];
         [cardButton setBackgroundImage:[self backgroundImageForCard:card] forState:UIControlStateNormal];
-
+        
         cardButton.enabled = !card.isMatched;
     }
-
+    
     self.infoLabel.attributedText = self.game.matchInfo;
     self.scoreLabel.text = [NSString stringWithFormat:@"Score: %d", self.game.score];
 }
@@ -68,13 +68,13 @@
 
 - (UIImage *)backgroundImageForCard:(Card *)card
 {
-    return [UIImage imageNamed:card.isChosen ? @"card_round" : @"card_background"];
+    return [UIImage imageNamed:card.isChosen ? @"card_round" : @"card_background2"];
 }
 
 - (IBAction)cardTouchButton:(UIButton *)sender {
     int chosenButtonIndex = [self.cardButtons indexOfObject:sender];
     
-    [self.game chooseCardAtIndex:chosenButtonIndex matchCount:2];
+    [self.game chooseCardAtIndex:chosenButtonIndex matchCount:3];
     [self updateUI];
 }
 

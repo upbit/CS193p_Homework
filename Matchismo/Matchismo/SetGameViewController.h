@@ -1,5 +1,5 @@
 //
-//  CardGameViewController.h
+//  SetGameViewController.h
 //  Matchismo
 //
 //  Created by Zhou Hao on 14-8-14.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CardGameViewController : UIViewController
+@interface SetGameViewController : UIViewController
 
 @end
