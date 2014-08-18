@@ -2,84 +2,95 @@
 //  SetGameViewController.m
 //  Matchismo
 //
-//  Created by Zhou Hao on 14-8-14.
+//  Created by Zhou Hao on 14-8-18.
 //  Copyright (c) 2014年 zzz, kastark. All rights reserved.
 //
 
 #import "SetGameViewController.h"
 #import "SetPlayingCardDeck.h"
-#import "CardMatchingGame.h"
-#import "HistoryViewController.h"
 
 @interface SetGameViewController ()
 
-@property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
-@property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 @property (weak, nonatomic) IBOutlet UILabel *infoLabel;
-
-@property (strong, nonatomic) CardMatchingGame *game;
+@property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 
 @end
 
 @implementation SetGameViewController
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"ShowHistory"]) {
-        if ([segue.destinationViewController isKindOfClass:[HistoryViewController class]]) {
-            HistoryViewController *hisvc = segue.destinationViewController;
-            hisvc.matchHistory = self.game.matchHistory;
-        }
-    }
-}
-
 - (Deck *)createDeck
 {
+    self.chosenCardCount = 3;
     return [[SetPlayingCardDeck alloc] init];
 }
 
-- (CardMatchingGame *)game
+- (NSAttributedString *)attributedTitleForCard:(Card *)card;
 {
-    if (!_game) _game = [[CardMatchingGame alloc] initWithCardCount:[self.cardButtons count]
-                                                         usingDeck:[self createDeck]];
-    return _game;
-}
+    // In 'Set' game, always draw card symbol
+    
+    NSString *symbol = @"?";
+    NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
+    
+    if ([card isKindOfClass:[SetPlayingCard class]]) {
+        SetPlayingCard *setCard = (SetPlayingCard *)card;
+        
+        if ([setCard.symbol isEqualToString:@"oval"]) symbol = @"●";
+        if ([setCard.symbol isEqualToString:@"squiggle"]) symbol = @"▲";
+        if ([setCard.symbol isEqualToString:@"diamond"]) symbol = @"■";
+        
+        symbol = [symbol stringByPaddingToLength:setCard.number withString:symbol startingAtIndex:0];
 
-- (void)updateUI
-{
-    for (UIButton *cardButton in self.cardButtons) {
-        int cardButtonIndex = [self.cardButtons indexOfObject:cardButton];
-        Card *card = [self.game cardAtIndex:cardButtonIndex];
+        if ([setCard.color isEqualToString:@"red"]) {
+            [attributes setObject:[UIColor redColor] forKey:NSForegroundColorAttributeName];
+        } else if ([setCard.color isEqualToString:@"green"]) {
+            [attributes setObject:[UIColor greenColor] forKey:NSForegroundColorAttributeName];
+        } else if ([setCard.color isEqualToString:@"purple"]) {
+            [attributes setObject:[UIColor purpleColor] forKey:NSForegroundColorAttributeName];
+        }
         
-        [cardButton setAttributedTitle:[self titleForCard:card] forState:UIControlStateNormal];
-        [cardButton setBackgroundImage:[self backgroundImageForCard:card] forState:UIControlStateNormal];
-        
-        cardButton.enabled = !card.isMatched;
+        if ([setCard.shading isEqualToString:@"open"]) {
+            [attributes setObject:@8 forKey:NSStrokeWidthAttributeName];
+        } else if ([setCard.shading isEqualToString:@"striped"]) {
+            [attributes addEntriesFromDictionary:@{ NSStrokeWidthAttributeName : @-8,
+                                                    NSStrokeColorAttributeName : [UIColor blackColor],
+                                                    NSForegroundColorAttributeName : [attributes[NSForegroundColorAttributeName] colorWithAlphaComponent:0.6]}];
+        } else { // solid
+            // pass
+        }
     }
     
-    self.infoLabel.attributedText = self.game.matchInfo;
-    self.scoreLabel.text = [NSString stringWithFormat:@"Score: %d", self.game.score];
-}
-
-- (NSAttributedString *)titleForCard:(Card *)card
-{
-    return card.isChosen ? card.contents : [[NSAttributedString alloc] init];
+    return [[NSMutableAttributedString alloc] initWithString:symbol attributes:attributes];
 }
 
 - (UIImage *)backgroundImageForCard:(Card *)card
 {
-    return [UIImage imageNamed:card.isChosen ? @"card_round" : @"card_background2"];
+    return [UIImage imageNamed:card.isChosen ? @"setcard_selected" : @"setcard_round"];
 }
 
-- (IBAction)cardTouchButton:(UIButton *)sender {
-    int chosenButtonIndex = [self.cardButtons indexOfObject:sender];
+// override
+- (void)updateUI
+{
+    [super updateUI];
     
-    [self.game chooseCardAtIndex:chosenButtonIndex matchCount:3];
-    [self updateUI];
+    // update infoLabel
+    NSMutableAttributedString *matchInfo = [[NSMutableAttributedString alloc] init];
+    for (Card *card in self.game.lastChosenCards) {
+        [matchInfo appendAttributedString:[self attributedTitleForCard:card]];
+        [matchInfo appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
+    }
+    if (self.game.lastScore > 0) {
+        [matchInfo appendAttributedString:[[NSAttributedString alloc] initWithString:
+                                        [NSString stringWithFormat:@"matched for %d points.", self.game.lastScore]]];
+    } else if (self.game.lastScore < 0) {
+        [matchInfo appendAttributedString:[[NSAttributedString alloc] initWithString:
+                                        [NSString stringWithFormat:@"don’t match! %d point penalty!", self.game.lastScore]]];
+    }
+    self.infoLabel.attributedText = matchInfo;
 }
 
-- (IBAction)resetGame:(UIBarButtonItem *)sender {
-    self.game = nil;
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
     [self updateUI];
 }
 

@@ -16,12 +16,12 @@
     
     if (self)
     {
-        for (UIColor *color in [SetPlayingCard validColor]) {
-            for (NSString *shading in [SetPlayingCard validShading]) {
-                for (NSString *symbol in [SetPlayingCard validSymbol]) {
-                    for (NSUInteger rank = 1; rank <= [SetPlayingCard maxRank]; rank++) {
+        for (NSString *color in [SetPlayingCard validColors]) {
+            for (NSString *shading in [SetPlayingCard validShadings]) {
+                for (NSString *symbol in [SetPlayingCard validSymbols]) {
+                    for (NSUInteger number = 1; number <= [SetPlayingCard maxRank]; number++) {
                         SetPlayingCard * card = [[SetPlayingCard alloc] init];
-                        card.rank = rank;
+                        card.number = number;
                         card.symbol = symbol;
                         card.shading = shading;
                         card.color = color;

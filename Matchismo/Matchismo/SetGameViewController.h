@@ -2,12 +2,14 @@
 //  SetGameViewController.h
 //  Matchismo
 //
-//  Created by Zhou Hao on 14-8-14.
+//  Created by Zhou Hao on 14-8-18.
 //  Copyright (c) 2014年 zzz, kastark. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "GameViewController.h"
 
-@interface SetGameViewController : UIViewController
+@interface SetGameViewController : GameViewController
+
+@property (nonatomic) NSUInteger chosenCardCount;
 
 @end

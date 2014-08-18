@@ -55,43 +55,49 @@
             SetPlayingCard *otherCard2 = (SetPlayingCard *)card2;
             
             // They all have the same number, or they have three different numbers
-            if ([self matchSetCardsWithKey:self card2:otherCard1 card3:otherCard2 key:@"rank" isString:NO]) {
+            if ([self matchSetCardsWithKey:self card2:otherCard1 card3:otherCard2 key:@"number" isString:NO]) {
                 // They all have the same symbol, or they have three different symbols
                 if ([self matchSetCardsWithKey:self card2:otherCard1 card3:otherCard2 key:@"symbol" isString:YES]) {
                     // They all have the same shading, or they have three different shadings
                     if ([self matchSetCardsWithKey:self card2:otherCard1 card3:otherCard2 key:@"shading" isString:YES]) {
                         // They all have the same color, or they have three different colors
-                        if ([self matchSetCardsWithKey:self card2:otherCard1 card3:otherCard2 key:@"color" isString:NO]) {
-                            score = 16;
+                        if ([self matchSetCardsWithKey:self card2:otherCard1 card3:otherCard2 key:@"color" isString:YES]) {
+                            score = 4;
                         }
                     }
                 }
             }
-            
         }
     }
     
     return score;
 }
 
-+ (NSArray *)validRanks
-{
-    return @[@0, @1, @2, @3];
-}
-
 + (NSUInteger)maxRank
 {
-    return [[self validRanks] count] - 1;
+    return 3;
+}
++ (NSArray *)validColors
+{
+    return @[@"red", @"green", @"purple"];
+}
++ (NSArray *)validSymbols
+{
+    return @[@"oval", @"squiggle", @"diamond"];
+}
++ (NSArray *)validShadings
+{
+    return @[@"solid", @"open", @"striped"];
 }
 
-+ (NSArray *)validSymbol
+- (NSString *)contents
 {
-    return @[@"▲", @"●", @"■"];
+    return [NSString stringWithFormat:@"%@:%@:%@:%d", self.symbol, self.color, self.shading, self.number];
 }
 
 - (void)setSymbol:(NSString *)symbol
 {
-    if ([[SetPlayingCard validSymbol] containsObject:symbol]) {
+    if ([[SetPlayingCard validSymbols] containsObject:symbol]) {
         _symbol = symbol;
     }
 }
@@ -100,14 +106,9 @@
     return _symbol ? _symbol : @"?";
 }
 
-+ (NSArray *)validShading
-{
-    return @[@"solid", @"striped", @"open"];
-}
-
 - (void)setShading:(NSString *)shading
 {
-    if ([[SetPlayingCard validShading] containsObject:shading]) {
+    if ([[SetPlayingCard validShadings] containsObject:shading]) {
         _shading = shading;
     }
 }
@@ -116,40 +117,9 @@
     return _shading ? _shading : @"?";
 }
 
-+(NSArray *)validColor
+-(NSString *)color
 {
-    return @[[UIColor redColor], [UIColor greenColor], [UIColor purpleColor]];
-}
-
--(UIColor *)color
-{
-    return _color ? _color : [UIColor grayColor];
-}
-
-- (NSAttributedString *)contents
-{
-    NSMutableString *cardSymbols = [[NSMutableString alloc] init];
-    for (NSUInteger i = 0; i < self.rank; i++) {
-        [cardSymbols appendFormat:@"%@", self.symbol];
-    }
-    [cardSymbols appendString:@" "];
-    
-    NSMutableAttributedString *result = [[NSMutableAttributedString alloc] initWithString:cardSymbols];
-    NSRange resultRange = NSMakeRange(0, result.length);
-    
-    [result addAttribute:NSForegroundColorAttributeName value:self.color range:resultRange];
-    
-    if ([self.shading isEqualToString:@"open"]) {
-        [result addAttribute:NSStrokeWidthAttributeName value:@5 range:resultRange];
-    } else if ([self.shading isEqualToString:@"striped"]) {
-        [result addAttributes:@{ NSStrokeWidthAttributeName : @-5,
-                                 NSStrokeColorAttributeName : [UIColor blackColor] }
-                        range:resultRange];
-    } else { // solid
-        // pass
-    }
-    
-    return result;
+    return _color ? _color : @"?";
 }
 
 @end

@@ -12,14 +12,14 @@
 
 @property (strong, nonatomic) NSAttributedString *attributedContents;
 
-@property (nonatomic) NSUInteger rank;                  // 1-3
-@property (strong, nonatomic) NSString *symbol;         // ▲ ● ■
-@property (strong, nonatomic) NSString *shading;        // solid, striped, or open
-@property (strong, nonatomic) UIColor *color;           // red, green, or purple
+@property (nonatomic) NSUInteger number;
+@property (strong, nonatomic) NSString *symbol;
+@property (strong, nonatomic) NSString *shading;
+@property (strong, nonatomic) NSString *color;
 
 + (NSUInteger)maxRank;
-+ (NSArray *)validSymbol;
-+ (NSArray *)validShading;
-+ (NSArray *)validColor;
++ (NSArray *)validSymbols;
++ (NSArray *)validShadings;
++ (NSArray *)validColors;
 
 @end

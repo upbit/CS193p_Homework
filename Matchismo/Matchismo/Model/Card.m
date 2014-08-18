@@ -19,7 +19,7 @@
     int score = 0;
     
     for (Card* card in otherCards) {
-        if ([card.contents isEqualToAttributedString:self.contents])
+        if ([card.contents isEqualToString:self.contents])
             score += 1;
     }
     

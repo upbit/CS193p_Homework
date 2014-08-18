@@ -14,11 +14,11 @@
 
 - (instancetype)initWithCardCount:(NSUInteger)count usingDeck:(Deck *)deck;
 
-- (void)chooseCardAtIndex:(NSUInteger)index matchCount:(NSUInteger)count;
+- (BOOL)chooseCardAtIndex:(NSUInteger)index matchCount:(NSUInteger)count;
 - (Card *)cardAtIndex:(NSUInteger)index;
 
 @property (nonatomic, readonly) NSInteger score;
-@property (strong, nonatomic, readonly) NSAttributedString *matchInfo;
-@property (strong, nonatomic, readonly) NSMutableAttributedString *matchHistory;
+@property (nonatomic, readonly) NSInteger lastScore;
+@property (strong, nonatomic, readonly) NSArray *lastChosenCards;   // of Card
 
 @end

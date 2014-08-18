@@ -10,19 +10,13 @@
 
 @interface CardMatchingGame()
 @property (nonatomic, readwrite) NSInteger score;
-@property (strong, nonatomic, readwrite) NSAttributedString *matchInfo;
-@property (strong, nonatomic, readwrite) NSMutableAttributedString *matchHistory;
+@property (nonatomic, readwrite) NSInteger lastScore;
+@property (strong, nonatomic, readwrite) NSArray *lastChosenCards;   // of Card
 
 @property (strong, nonatomic) NSMutableArray *cards;    // of Card
 @end
 
 @implementation CardMatchingGame
-
-- (NSMutableAttributedString *)matchHistory
-{
-    if (!_matchHistory) _matchHistory = [[NSMutableAttributedString alloc] init];
-    return _matchHistory;
-}
 
 - (NSMutableArray *)cards
 {
@@ -58,31 +52,16 @@ static const int MISMATCH_PENALTY = 2;
 static const int MATCH_BONUS = 4;
 static const int COST_TO_CHOOSE = 1;
 
-- (NSAttributedString *)makeMatchInfo:(Card *)card otherCards:(NSMutableArray *)otherCards score:(NSInteger)score
+- (BOOL)chooseCardAtIndex:(NSUInteger)index matchCount:(NSUInteger)count
 {
-    NSMutableAttributedString *result = [[NSMutableAttributedString alloc] init];
-    
-    // add attributed card contents
-    for (Card *otherCard in otherCards)
-        [result appendAttributedString:otherCard.contents];
-    [result appendAttributedString:card.contents];
-    
-    if (score > 0) {
-        [result appendAttributedString:[[NSAttributedString alloc] initWithString:
-                                        [NSString stringWithFormat:@"matched for %d points.", score]]];
-    } else {
-        [result appendAttributedString:[[NSAttributedString alloc] initWithString:
-                                        [NSString stringWithFormat:@"don’t match! %d point penalty!", score]]];
-    }
-    return result;
-}
-
-- (void)chooseCardAtIndex:(NSUInteger)index matchCount:(NSUInteger)count
-{
-    Card *card = [self cardAtIndex:index];
-    NSMutableArray *matchCards = [[NSMutableArray alloc] init];
     BOOL needMatch = NO;
     
+    if (count == 0)
+        return needMatch;
+    
+    Card *card = [self cardAtIndex:index];
+    NSMutableArray *matchCards = [[NSMutableArray alloc] init];
+
     if (!card.isMatched) {
         if (card.isChosen) {
             card.chosen = NO;
@@ -99,26 +78,22 @@ static const int COST_TO_CHOOSE = 1;
             }
             
             if (needMatch) {
-                NSInteger matchScore = [card match:matchCards];
-                if (matchScore) {
-                    self.score += matchScore * MATCH_BONUS;
-                    self.matchInfo = [self makeMatchInfo:card otherCards:matchCards score:matchScore*MATCH_BONUS];
+                NSInteger score = [card match:matchCards];
+                self.lastChosenCards = [matchCards arrayByAddingObject:card];
+                
+                if (score) {
+                    self.score += score * MATCH_BONUS;
+                    self.lastScore = score * MATCH_BONUS;
                     
-                    card.matched = YES;
-                    for (Card *otherCard in matchCards)
-                        otherCard.matched = YES;
+                    for (Card *matchCard in self.lastChosenCards)
+                        matchCard.matched = YES;
                 } else {
                     self.score -= MISMATCH_PENALTY;
-                    self.matchInfo = [self makeMatchInfo:card otherCards:matchCards score:-MISMATCH_PENALTY];
+                    self.lastScore = (-MISMATCH_PENALTY);
                     
-                    card.chosen = NO;
-                    for (Card *otherCard in matchCards)
-                        otherCard.chosen = NO;
+                    for (Card *matchCard in self.lastChosenCards)
+                        matchCard.chosen = NO;
                 }
-                
-                // log match history
-                [self.matchHistory appendAttributedString:self.matchInfo];
-                [self.matchHistory appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
             }
             
             self.score -= COST_TO_CHOOSE;
@@ -126,6 +101,7 @@ static const int COST_TO_CHOOSE = 1;
         }
     }
     
+    return needMatch;
 }
 
 @end
