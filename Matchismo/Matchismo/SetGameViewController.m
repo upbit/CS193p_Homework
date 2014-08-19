@@ -21,6 +21,7 @@
 - (Deck *)createDeck
 {
     self.chosenCardCount = 3;
+    self.gameResult.gameType = GAMETYPE_SET;
     return [[SetPlayingCardDeck alloc] init];
 }
 

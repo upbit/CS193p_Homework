@@ -9,6 +9,7 @@
 #import "HistoryViewController.h"
 
 @interface HistoryViewController ()
+
 @property (weak, nonatomic) IBOutlet UITextView *historyTextView;
 
 @end

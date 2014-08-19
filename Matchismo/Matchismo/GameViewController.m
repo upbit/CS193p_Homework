@@ -8,6 +8,7 @@
 
 #import "GameViewController.h"
 #import "HistoryViewController.h"
+#import "GameRanking.h"
 
 @interface GameViewController ()
 
@@ -50,10 +51,37 @@
     return _matchHistory;
 }
 
+- (GameResult *)gameResult
+{
+    if (!_gameResult) _gameResult = [[GameResult alloc] init];
+    return _gameResult;
+}
+
+- (BOOL)isGameCompleted
+{
+    BOOL ret = YES;
+    for (UIButton *cardButton in self.cardButtons) {
+        if (cardButton.isEnabled) {
+            ret = NO;
+            break;
+        }
+    }
+    return ret;
+}
+
+- (void)storageCurrentGameResult
+{
+    self.gameResult.score = self.game.score;
+    self.gameResult.duration = -[self.gameResult.date timeIntervalSinceNow];
+    
+    if (self.gameResult.score > 0)
+        [GameRanking storageGameResultToRanking:self.gameResult];
+}
+
 - (void)updateUI
 {
     for (UIButton *cardButton in self.cardButtons) {
-        int cardButtonIndex = [self.cardButtons indexOfObject:cardButton];
+        NSUInteger cardButtonIndex = [self.cardButtons indexOfObject:cardButton];
         Card *card = [self.game cardAtIndex:cardButtonIndex];
         
         [cardButton setAttributedTitle:[self attributedTitleForCard:card] forState:UIControlStateNormal];
@@ -78,17 +106,21 @@
 }
 
 - (IBAction)cardTouchButton:(UIButton *)sender {
-    int chosenButtonIndex = [self.cardButtons indexOfObject:sender];
+    NSUInteger chosenButtonIndex = [self.cardButtons indexOfObject:sender];
     BOOL matched = [self.game chooseCardAtIndex:chosenButtonIndex matchCount:self.chosenCardCount];
     [self updateUI];
     
     if (matched) {
         [self.matchHistory appendAttributedString:self.infoLabel.attributedText];
         [self.matchHistory appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
+        if ([self isGameCompleted]) [self storageCurrentGameResult];
     }
 }
 
 - (IBAction)resetGame:(UIBarButtonItem *)sender {
+    // save GameResult first
+    [self storageCurrentGameResult];
+    self.gameResult = nil;
     self.game = nil;
     self.matchHistory = nil;
     [self updateUI];

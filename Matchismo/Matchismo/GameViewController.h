@@ -9,12 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "Deck.h"
 #import "CardMatchingGame.h"
+#import "GameResult.h"
 
 @interface GameViewController : UIViewController
 
 @property (nonatomic) NSUInteger chosenCardCount;
 @property (strong, nonatomic) CardMatchingGame *game;
 @property (strong, nonatomic) NSAttributedString *matchInfo;
+@property (strong, nonatomic) GameResult *gameResult;
 
 - (Deck *)createDeck;
 

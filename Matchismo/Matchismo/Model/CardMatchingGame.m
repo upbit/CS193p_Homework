@@ -9,8 +9,8 @@
 #import "CardMatchingGame.h"
 
 @interface CardMatchingGame()
-@property (nonatomic, readwrite) NSInteger score;
-@property (nonatomic, readwrite) NSInteger lastScore;
+@property (nonatomic, readwrite) int score;
+@property (nonatomic, readwrite) int lastScore;
 @property (strong, nonatomic, readwrite) NSArray *lastChosenCards;   // of Card
 
 @property (strong, nonatomic) NSMutableArray *cards;    // of Card
@@ -78,7 +78,7 @@ static const int COST_TO_CHOOSE = 1;
             }
             
             if (needMatch) {
-                NSInteger score = [card match:matchCards];
+                int score = [card match:matchCards];
                 self.lastChosenCards = [matchCards arrayByAddingObject:card];
                 
                 if (score) {

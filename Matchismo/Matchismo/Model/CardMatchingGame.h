@@ -17,8 +17,8 @@
 - (BOOL)chooseCardAtIndex:(NSUInteger)index matchCount:(NSUInteger)count;
 - (Card *)cardAtIndex:(NSUInteger)index;
 
-@property (nonatomic, readonly) NSInteger score;
-@property (nonatomic, readonly) NSInteger lastScore;
+@property (nonatomic, readonly) int score;
+@property (nonatomic, readonly) int lastScore;
 @property (strong, nonatomic, readonly) NSArray *lastChosenCards;   // of Card
 
 @end
