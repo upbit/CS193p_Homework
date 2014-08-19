@@ -50,11 +50,11 @@
         }
         
         if ([setCard.shading isEqualToString:@"open"]) {
-            [attributes setObject:@8 forKey:NSStrokeWidthAttributeName];
+            [attributes setObject:@10 forKey:NSStrokeWidthAttributeName];
         } else if ([setCard.shading isEqualToString:@"striped"]) {
-            [attributes addEntriesFromDictionary:@{ NSStrokeWidthAttributeName : @-8,
+            [attributes addEntriesFromDictionary:@{ NSStrokeWidthAttributeName : @-10,
                                                     NSStrokeColorAttributeName : [UIColor blackColor],
-                                                    NSForegroundColorAttributeName : [attributes[NSForegroundColorAttributeName] colorWithAlphaComponent:0.6]}];
+                                                    NSForegroundColorAttributeName : [attributes[NSForegroundColorAttributeName] colorWithAlphaComponent:0.4]}];
         } else { // solid
             // pass
         }

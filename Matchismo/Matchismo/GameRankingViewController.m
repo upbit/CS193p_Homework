@@ -46,11 +46,12 @@
     
     
     NSString *rankingString = [[GameRanking getGlobalRankingByName:gameType rankingName:rankingName] componentsJoinedByString:@"\n"];
-    self.rankingTextView.text = rankingString;
+    // reset Attributes with NSString
+    [self.rankingTextView setAttributedText:[[NSAttributedString alloc] initWithString:rankingString]];
     
     // try highlight shortest game / highest score in array
     NSArray *rawRankingArray = [GameRanking getGlobalRawRankingByName:gameType rankingName:rankingName];
-    if ([rawRankingArray count]) {
+    if ([rawRankingArray count] > 0) {
         NSMutableAttributedString *textViewAttributedText = [[NSMutableAttributedString alloc] initWithAttributedString:self.rankingTextView.textStorage];
         
         NSString *shortestGameLine = [[[GameRanking sortRankingByKeyAndOrder:rawRankingArray rankingName:RANK_GAME_DURATION] firstObject] description];
