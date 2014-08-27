@@ -133,8 +133,6 @@
 		CBD98EED19AC365600DE8332 /* TopPlaces */ = {
 			isa = PBXGroup;
 			children = (
-				CBD98EF619AC365600DE8332 /* TopPlacesAppDelegate.h */,
-				CBD98EF719AC365600DE8332 /* TopPlacesAppDelegate.m */,
 				CBD98F2A19AC414700DE8332 /* FlickrPhotosTVC.h */,
 				CBD98F2B19AC414700DE8332 /* FlickrPhotosTVC.m */,
 				CBF73B8619AC736100F57426 /* FlickrPlacesTVC.h */,
@@ -159,6 +157,8 @@
 		CBD98EEE19AC365600DE8332 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				CBD98EF619AC365600DE8332 /* TopPlacesAppDelegate.h */,
+				CBD98EF719AC365600DE8332 /* TopPlacesAppDelegate.m */,
 				CBD98EEF19AC365600DE8332 /* TopPlaces-Info.plist */,
 				CBD98EF019AC365600DE8332 /* InfoPlist.strings */,
 				CBD98EF319AC365600DE8332 /* main.m */,

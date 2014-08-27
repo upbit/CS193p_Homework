@@ -8,11 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-#define TVC_TAG_IGNORE_VIEW_HISTORY (1001)      // Mark for RecentsViewController
-
 @interface TopPlacesAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-@property (strong, nonatomic) NSArray *recentPhotos;
 
 @end

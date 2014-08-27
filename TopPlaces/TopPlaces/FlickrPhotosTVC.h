@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+#define TVC_TAG_IGNORE_VIEW_HISTORY (1001)      // Mark for RecentsViewController
+#define KEY_RECENT_PHOTOS @"recents"
+
 @interface FlickrPhotosTVC : UITableViewController
 @property (strong, nonatomic) NSArray *photos;  // for Flicker of NSDictionary
 @end

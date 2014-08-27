@@ -7,7 +7,6 @@
 //
 
 #import "RecentsViewController.h"
-#import "TopPlacesAppDelegate.h"
 
 @interface RecentsViewController ()
 
@@ -32,7 +31,7 @@
 - (IBAction)fetchPhotos
 {
     [self.refreshControl endRefreshing];
-    self.photos = ((TopPlacesAppDelegate *)[[UIApplication sharedApplication] delegate]).recentPhotos;
+    self.photos = [[NSUserDefaults standardUserDefaults] objectForKey:KEY_RECENT_PHOTOS];
 }
 
 @end

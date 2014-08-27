@@ -9,7 +9,6 @@
 #import "FlickrPhotosTVC.h"
 #import "FlickrFetcher.h"
 #import "ImageViewController.h"
-#import "TopPlacesAppDelegate.h"
 
 @interface FlickrPhotosTVC ()
 
@@ -46,6 +45,14 @@
     cell.textLabel.text = [photo valueForKeyPath:FLICKR_PHOTO_TITLE];
     cell.detailTextLabel.text = [photo valueForKeyPath:FLICKR_PHOTO_DESCRIPTION];
     
+    if ([cell.textLabel.text length] == 0) {
+        if ([cell.detailTextLabel.text length] == 0) {
+            cell.textLabel.text = @"Unknown";
+        } else {
+            cell.textLabel.text = cell.detailTextLabel.text;
+        }
+    }
+    
     return cell;
 }
 
@@ -68,9 +75,17 @@
 - (void)prepareImageViewController:(ImageViewController *)ivc toDisplayPhoto:(NSDictionary *)photo
 {
     ivc.imageURL = [FlickrFetcher URLforPhoto:photo format:FlickrPhotoFormatLarge];
-    ivc.title = [photo valueForKeyPath:FLICKR_PHOTO_TITLE];
+    if ([[photo valueForKeyPath:FLICKR_PHOTO_TITLE] length] == 0) {
+        if ([[photo valueForKeyPath:FLICKR_PHOTO_DESCRIPTION] length] == 0) {
+            ivc.title = @"Unknown";
+        } else {
+            ivc.title = [photo valueForKeyPath:FLICKR_PHOTO_DESCRIPTION];
+        }
+    } else {
+        ivc.title = [photo valueForKeyPath:FLICKR_PHOTO_TITLE];
+    }
     
-    [self addPhotoToRecentPhotosArray:photo];
+    [self addViewedPhotoToRecentsArray:photo];
 }
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -92,19 +107,20 @@
 
 static const int MAX_RECENT_PHOTO_NUM = 20;
 
-- (void)addPhotoToRecentPhotosArray:(NSDictionary *)photo
+- (void)addViewedPhotoToRecentsArray:(NSDictionary *)photo
 {
     if (self.tableView.tag == TVC_TAG_IGNORE_VIEW_HISTORY)
         return;
     
-    TopPlacesAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    NSMutableArray *recentPhotos = [[NSMutableArray alloc] initWithArray:appDelegate.recentPhotos];
+    NSMutableArray *recents = [[NSMutableArray alloc] initWithArray:[[NSUserDefaults standardUserDefaults] objectForKey:KEY_RECENT_PHOTOS]];
     
-    if (![recentPhotos containsObject:photo]) {
+    if (![recents containsObject:photo]) {
         NSLog(@"Add recent: '%@'", [photo valueForKeyPath:FLICKR_PHOTO_TITLE]);
+        [recents insertObject:photo atIndex:0];
         
-        [recentPhotos insertObject:photo atIndex:0];
-        appDelegate.recentPhotos = [recentPhotos subarrayWithRange:NSMakeRange(0, MIN([recentPhotos count], MAX_RECENT_PHOTO_NUM))];
+        NSArray *newRecents = [recents subarrayWithRange:NSMakeRange(0, MIN([recents count], MAX_RECENT_PHOTO_NUM))];
+        [[NSUserDefaults standardUserDefaults] setObject:newRecents forKey:KEY_RECENT_PHOTOS];
+        [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }
 
